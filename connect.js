@@ -1,6 +1,5 @@
 #!/usr/bin/env node
 
-// Import necessary modules
 import { spawn } from 'child_process'
 import inquirer from 'inquirer'
 import fs from 'fs'
@@ -8,15 +7,12 @@ import os from 'os'
 import path from 'path'
 import { envPortMapping, REGION, DOMAIN_NAME } from './envPortMapping.js'
 
-// Get the path to the AWS config file
 const awsConfigPath = path.join(os.homedir(), '.aws', 'config')
 const awsConfig = fs.readFileSync(awsConfigPath, 'utf-8')
 
-// Extract environments from AWS config file
 const ENVS = awsConfig.split('\n').filter(line => line.startsWith('[') && line.endsWith(']'))
   .map(line => line.slice(1, -1).replace('profile ', ''))
 
-// Prompt the user to select an environment
 inquirer.prompt([
   {
     type: 'list',
@@ -36,7 +32,6 @@ inquirer.prompt([
   const command = `${awsVaultExecCommand} ${opensearchEndpointCommand}`
 
   const process = spawn('sh', ['-c', command])
-  let sessionId = ''
 
   process.stdout.on('data', (data) => {
     const endpoint = data.toString().trim()
@@ -52,6 +47,10 @@ inquirer.prompt([
 
       const portForwardingCommand = `aws ssm start-session --target ${INSTANCE_ID} --document-name AWS-StartPortForwardingSessionToRemoteHost --parameters "host=${endpoint},portNumber='443',localPortNumber='${portNumber}'" --cli-connect-timeout 0`
       const portForwardingProcess = spawn('sh', ['-c', `${awsVaultExecCommand} ${portForwardingCommand}`])
+
+      portForwardingProcess.stdout.on('data', (data) => {
+        console.log(`Port Forwarding Output: ${data.toString().trim()}`)
+      })
 
       portForwardingProcess.stderr.on('data', (data) => {
         console.error(`Port Forwarding Error: ${data.toString()}`)
