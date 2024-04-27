@@ -1,0 +1,25 @@
+{
+  "name": "opensearch_ssm_connect",
+  "version": "1.0.0",
+  "description": "A script to connect to AWS OpenSearch via secure session management.",
+  "type": "module",
+  "main": "connect.js",
+  "scripts": {
+    "start": "node connect.js",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix"
+  },
+  "dependencies": {
+    "@aws-sdk/client-ec2": "^3.495.0",
+    "@aws-sdk/client-opensearch": "^3.495.0",
+    "@aws-sdk/client-ssm": "^3.495.0",
+    "inquirer": "^8.2.6"
+  },
+  "devDependencies": {
+    "eslint": "^8.56.0",
+    "eslint-config-standard": "^17.1.0",
+    "eslint-plugin-import": "^2.29.1",
+    "eslint-plugin-n": "^16.6.2",
+    "eslint-plugin-promise": "^6.1.1"
+  }
+}
