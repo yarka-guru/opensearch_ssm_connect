@@ -24,7 +24,7 @@ inquirer.prompt([
   const ENV = answers.ENV
   console.log(`You selected: ${ENV}`)
 
-  const matchedSuffix = Object.keys(envPortMapping).find(suffix => ENV.endsWith(suffix))
+  const matchedSuffix = Object.keys(envPortMapping).sort((a, b) => b.length - a.length).find(suffix => ENV.endsWith(suffix))
   const portNumber = envPortMapping[matchedSuffix] || '9200'
 
   const awsVaultExecCommand = `aws-vault exec ${ENV} --`
