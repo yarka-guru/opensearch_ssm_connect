@@ -17,19 +17,19 @@ Also, ensure that your AWS configuration file (`~/.aws/config`) is appropriately
 You can install this application globally using npm:
 
 ```bash
-npm install -g rds_ssm_connect
+npm install -g opensearch_ssm_connect
 ```
 
-2. Select the environment you want to use. The application will then execute a series of AWS commands within that environment.
+1. Select the environment you want to use. The application will then execute a series of AWS commands within that environment.
 
 Given your provided code, here's how to connect to the database:
 
-## Connecting to the Database
+## Connecting to the OpenSearch
 
-1. Invoke `rds_ssm_connect` in your terminal:
+1. Invoke `opensearch_ssm_connect` in your terminal:
 
    ```bash
-   rds_ssm_connect
+   opensearch_ssm_connect
    ```
 
    The application will read your AWS configuration file and prompt you to select an environment.
@@ -37,23 +37,22 @@ Given your provided code, here's how to connect to the database:
 2. Select the environment you want to connect to. The application will then execute a series of AWS commands within that environment. It will do the following:
 
    - Extract the environments from the AWS configuration file
-   - Get the name of the parameter containing the RDS password
-   - Get the RDS credentials
-   - Display the connection credentials and the connection string
+   - Display the connection credentials and the connection url
    - Get the ID of the bastion instance
-   - Get the endpoint of the RDS cluster
-   - Start a port forwarding session to the RDS cluster
+   - Get the endpoint of the OpenSearch domain
+   - Start a port forwarding session to the OpenSearch domain
 
 3. After you've selected an environment and the AWS commands have been executed, you will receive the connection information. Here is an example of the output:
 
    ```
-   Your connection string is: psql -h localhost -p <port> -U <username> -d oit
-   Use the password: <password>
+   You can access Kibana Dashboards by the link https://localhost:<port>/_dashboards/
+   Login: <login>
+   Password: <password>
    ```
 
-4. Use the provided connection string and password to connect to your database via a database administration tool of your choice, such as pgAdmin, DBeaver, or the `psql` command-line interface.
+4. Use the provided connection string and password to connect to your Kibana dashboards via browser of your choice.
 
-Please note: Make sure the chosen database administration tool is installed and configured on your local machine. The specific instructions for connecting to a database would vary based on the tool used.
+Please note: Make sure you accept certificate on the first connection. 
 
 ## Requirements
 
@@ -73,10 +72,8 @@ The application first reads the AWS configuration file and extracts the environm
 
 After the user selects an environment, the application executes a series of AWS commands within that environment using `aws-vault`. These commands include:
 
-- Describing SSM parameters to get the parameter's name containing the RDS password.
-- Getting the value of the RDS password parameter.
 - Describing EC2 instances to get the ID of the bastion instance.
-- Describing RDS DB clusters to get the endpoint of the RDS cluster.
-- Starting an AWS SSM session to forward a local port to the RDS cluster.
+- Describing OpenSearch domain to get the endpoint.
+- Starting an AWS SSM session to forward a local port to the OpenSearch domain.
 
 The application logs the output of each command and any errors that occur.
