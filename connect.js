@@ -68,7 +68,7 @@ inquirer.prompt([
 
   process.on('close', () => {
     console.log(`You can access Kibana Dashboards by the link https://localhost:${portNumber}/_dashboards/`)
-    console.log('Login: Admin')
+    console.log('Login: admin')
     console.log('Password: Supersecret1!')
   })
 })
