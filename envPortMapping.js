@@ -7,7 +7,8 @@ export const envPortMapping = {
   dev2: '9202',
   stage2: '9204',
   sandbox: '9207',
-  'perf-dev': '9208'
+  'perf-dev': '9208',
+  support: '9209'
 }
 
 // Define the table name
